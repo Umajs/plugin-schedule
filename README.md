@@ -3,8 +3,8 @@
 
 例：我们在app/schedule 目录下创建一个
 pvSchedule.ts文件
-```
 
+```js
 import {AbstractSchedule}  from '@umajs/core'
 
 export default class PvSchedule extends AbstractSchedule {
@@ -33,14 +33,14 @@ export default class PvSchedule extends AbstractSchedule {
 ### 配置
 
 1，在config/plugin.config.ts开启
-```
- 'task': {
+```js
+    'task': {
         enable: true,
     }
 
 ```
 2，新建schedule.config.ts，在其中填入配置项
-```
+```js
 export default =[
     {
         task: PvSchedule, // 定时任务类
@@ -58,18 +58,18 @@ export default =[
 
 ### 任务
 - 手动启动定时任务
-```
+```js
 new PvSchedule(app).start()
 ```
 
 - 自动启动
-```
+```js
  auto: true
 
 ```
 - 手动关闭定时任务
 
-```
+```js
 new PvSchedule(app).cancel()
 
 ```
@@ -93,7 +93,7 @@ new PvSchedule(app).cancel()
 ```
 
 - interval风格定时器，更多配置参考 node-schedule 
-```
+```js
 import * as schedule from 'node-schedule';
 let rule = new schedule.RecurrenceRule();
 rule.second =[0,1,2,3......59] 每秒执行
@@ -101,8 +101,8 @@ rule.second =0 每分钟0秒执行
 rule.minute =0 每小时30分执行
 
 this.scheduleInfo = {
-            rule, // 每1分鐘更新一次
-        }
+    rule, // 每1分鐘更新一次
+}
 ```
 
 ### 集群/分布式部署 执行定时任务
@@ -111,7 +111,7 @@ this.scheduleInfo = {
 - 插件采用的是分布式事务锁方案，支持单台redis和多台redis方案，基于redis实现
 
 
-```
+```js
 import * as RedLock  from 'redlock'
 
 var client1 = require('redis').createClient(6379, 'redis1.example.com');
