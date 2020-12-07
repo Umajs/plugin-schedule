@@ -21,7 +21,7 @@ export default class PvSchedule extends AbstractSchedule {
 
         setTimeout(()=>{
             Reflect.get(scheduleMap,"RedisSchedule").cancel()
-        },5000)
+        },7000)
 
     }
 

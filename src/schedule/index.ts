@@ -95,7 +95,6 @@ export abstract class AbstractSchedule {
 
         if (!name) throw new Error('Schedule task must have name')
 
-        console.log(scheduleHelper)
         // 重复执行判断
         if (!Reflect.get(scheduleHelper, name)) {
             // 记录已执行过的任务
@@ -127,7 +126,7 @@ export abstract class AbstractSchedule {
             })
 
         } else {
-            console.log('This task has already been performed')
+            console.error('This task has already been performed')
         }
 
 

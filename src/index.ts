@@ -1,7 +1,6 @@
 import { Uma, TPlugin } from "@umajs/core";
-import { scheduleMap } from "./schedule"
+import { scheduleMap ,AbstractSchedule} from "./schedule"
 import { IScheduleInfo } from "./schedule/interface";
-import { AbstractSchedule } from './schedule'
 type taskConfig = {
   auto: boolean;
   task: any
@@ -18,11 +17,11 @@ export default (uma: Uma): TPlugin => {
 
   for (let i = 0; i < taskConfig.length; i++) {
 
-    let { auto, task, options, mark } = taskConfig[i]
+    const { auto, task, options, mark } = taskConfig[i]
 
     if(!mark) throw new Error(' task must have mark')
 
-    let initTask: AbstractSchedule = new task(options);
+    const initTask: AbstractSchedule = new task(options);
 
     Reflect.set(scheduleMap, mark, initTask)
 

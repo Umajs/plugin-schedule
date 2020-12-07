@@ -80,7 +80,7 @@ export default class PvSchedule extends AbstractSchedule {
 - 手动启动定时任务
 ```js
 import {scheduleMap} from '@umajs/plugin-schedule'
-Reflect.get(scheduleMap,'pvSchedule').start()
+Reflect.get(scheduleMap,'pvSchedule').start() 
 ```
 
 - 自动启动
@@ -138,17 +138,14 @@ import * as RedLock  from 'redlock'
 
 var client1 = require('redis').createClient(6379, 'redis1.example.com');
 var client2 = require('redis').createClient(6379, 'redis2.example.com');
-export default =[
-    {
-        task: PvSchedule, // 定时任务类
-        auto: true, // 自动执行 
-        options: {
+
+   this.scheduleInfo= {
             rule: '0 0/1 * * * ?', // 每1分鐘更新一次
             name: 'pv', // 任务名称
             switch: true, // 定时任务开启
             redLock:new RedLock([client1,client2]) // 采用redis锁 
             redLockTKL:10000 //单位毫秒，锁的生存时间，在该时间内，若锁未释放，强行释放 避免死锁情况
-        }
+
     },
 ```
 
