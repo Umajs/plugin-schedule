@@ -14,25 +14,20 @@ export default [
     {
         task: PvSchedule,
         auto: true, // 自动执行 
+        mark:'PvSchedule',
         options: {
-            rule: '0 0/1 * * * ?', // 每1分鐘更新一次
-            name: 'pv',
-            switch: true, // 定时任务开启
+            // rule: '0 0/1 * * * ?', // 每1分鐘更新一次
+            // name: 'pv',
+            // switch: true, // 定时任务开启
+            // rule: '*/5 * * * * ?', // 每1分鐘更新一次
         }
     },
     {
-        task: RedisSchedule,
-        auto: true,
+        task: RedisSchedule,  // 任务的controller
+        auto: false,    
+        mark:'RedisSchedule', // 任务的标记
         options: {
-            rule: '0 0/1 * * * ?', // 每1分鐘更新一次
-            name: 'redis',
-            switch: true, // 定时任务开启
-            redLock: new RedLock([redis], {  // 分布式部署，redis加锁
-                retryDelay: 300,
-                retryCount: 5
-            }),
-            redLockTKL: 100000, // 自动释放锁时间
-            sleep:10000, // 主动释放锁时间
+        
         }
     },
 

@@ -6,9 +6,13 @@ export default class RedisSchedule extends AbstractSchedule {
         super(app)
         this.scheduleInfo = {
             // ...configDefault,
-            ...app
+            ...app,
+            name: 'redis',
+            switch: true, // 定时任务开启
+            rule: '*/5 * * * * ?', // 每1分鐘更新一次
    
         }
+        
     }
 
     /**

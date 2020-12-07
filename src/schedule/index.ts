@@ -1,7 +1,6 @@
 import * as schedule from 'node-schedule';
 import * as RedLock from 'redlock'
-import { IScheduleInfo } from './interface'
-
+import { IScheduleInfo,instance,helper } from './interface'
 /**
  * @description
  * 定时任务
@@ -17,7 +16,7 @@ export abstract class AbstractSchedule {
     public name: string;
 
     public app: any
-    
+
     public job: schedule.Job
 
     /**
@@ -67,7 +66,7 @@ export abstract class AbstractSchedule {
 
     private async execTask(lock: RedLock.Lock) {
 
-        const { sleep,redLockTKL } = this.scheduleInfo
+        const { sleep } = this.scheduleInfo
 
         await this.task();
 
@@ -92,31 +91,45 @@ export abstract class AbstractSchedule {
          * @memberof AbstractSchedule
          */
     public startSchedule() {
-        const { name, rule ,redLockTKL,redLock } = this.scheduleInfo
+        const { name, rule, redLockTKL, redLock } = this.scheduleInfo
+
         if (!name) throw new Error('Schedule task must have name')
 
-        this.job= schedule.scheduleJob(rule, async () => {
+        console.log(scheduleHelper)
+        // 重复执行判断
+        if (!Reflect.get(scheduleHelper, name)) {
+            // 记录已执行过的任务
+            Reflect.set(scheduleHelper, name, true);
+            // 创建定时任务
+            this.job = schedule.scheduleJob(rule, async () => {
 
-            // 启动redis分布式时，采用锁方案
-            if (redLock) {
+                // 启动redis分布式时，采用锁方案
+                if (redLock) {
 
-                if(!redLockTKL) throw new Error('Schedule task must have redLockTKL')
-                
-                try {
-                    redLock.lock(name, redLockTKL).then((lock) => {
-                        this.execTask(lock)
-                    }, () => this.app.info(`该实例不执行定时任务:${this.scheduleInfo.name},由其他实例执行`))
-                } catch (error) {
-                    console.log(error)
+                    if (!redLockTKL) throw new Error('Schedule task must have redLockTKL')
+
+                    try {
+                        redLock.lock(name, redLockTKL).then((lock) => {
+
+                            this.execTask(lock)
+
+                        }, () => console.log(`该实例不执行定时任务:${this.scheduleInfo.name},由其他实例执行`))
+                    } catch (error) {
+                        console.log(error)
+                    }
+
+                } else {
+                    console.log(`执行时间:${new Date()}`)
+
+                    await this.task();
                 }
 
-            } else {
-                console.log(`执行时间:${new Date()}`)
+            })
 
-                await this.task();
-            }
+        } else {
+            console.log('This task has already been performed')
+        }
 
-        })
 
     }
 
@@ -135,8 +148,20 @@ export abstract class AbstractSchedule {
     * 取消当前定时任务
     */
     public cancel() {
+        const { name } = this.scheduleInfo
+        Reflect.set(scheduleHelper, name, false);
         this.job.cancel()
     }
 
 
 }
+
+/**
+ * 调用者当前实例
+ */
+export const scheduleMap :instance = {}
+
+/**
+ * 记录任务是否已执行
+ */
+export const scheduleHelper:helper = {}

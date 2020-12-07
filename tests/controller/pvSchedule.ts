@@ -1,12 +1,28 @@
 
 import {AbstractSchedule}  from '../../src/schedule'
-
+import { scheduleMap } from "../../src/schedule"
 export default class PvSchedule extends AbstractSchedule {
     constructor(app){
         super(app)
         this.scheduleInfo = {
-            ...app
+            ...app,
+            name: 'pv',
+            switch: true, // 定时任务开启
+            rule: '*/5 * * * * ?', // 每1分鐘更新一次
         }
+
+        setTimeout(()=>{
+            Reflect.get(scheduleMap,"RedisSchedule").start()
+        },2000)
+
+        setTimeout(()=>{
+            Reflect.get(scheduleMap,"RedisSchedule").start()
+        },3000)
+
+        setTimeout(()=>{
+            Reflect.get(scheduleMap,"RedisSchedule").cancel()
+        },5000)
+
     }
 
     /**

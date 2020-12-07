@@ -5,7 +5,7 @@
 pvSchedule.ts文件
 
 ```js
-import {AbstractSchedule}  from '@umajs/core'
+import {AbstractSchedule}  from '@umajs/plugin-schedule'
 
 export default class PvSchedule extends AbstractSchedule {
     constructor(app){
@@ -45,21 +45,42 @@ export default =[
     {
         task: PvSchedule, // 定时任务类
         auto: true, // 自动执行 
-        options: {
-            rule: '0 0/1 * * * ?', // 每1分鐘更新一次
-            name: 'pv',
-            switch: true, // 定时任务开启
-        }
+        mark:"pvSchedule" // 任务标记
     },
     {
         ...
     }]
+
+```
+3，controller 初始化定时任务参数配置
+```js
+export default class PvSchedule extends AbstractSchedule {
+    constructor(app){
+        super(app)
+        this.scheduleInfo = {
+           rule:'0 0/1 * * * ?', // 每1分鐘更新一次
+           name:'PV', // 定时任务名称
+            switch:true, // 开启定时任务
+            redLock:null // 不采用redis锁 
+            ...app
+        }
+    }
+
+    /**
+     * 业务实现
+     */
+    public task() {
+       // todo task
+    }
+
+}
 ```
 
 ### 任务
 - 手动启动定时任务
 ```js
-new PvSchedule(app).start()
+import {scheduleMap} from '@umajs/plugin-schedule'
+Reflect.get(scheduleMap,'pvSchedule').start()
 ```
 
 - 自动启动
@@ -70,7 +91,8 @@ new PvSchedule(app).start()
 - 手动关闭定时任务
 
 ```js
-new PvSchedule(app).cancel()
+
+Reflect.get(scheduleMap,'pvSchedule').cancel()
 
 ```
 ### 定时方式 
