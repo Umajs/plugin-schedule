@@ -19,7 +19,7 @@ export default (uma: Uma): TPlugin => {
 
     const { auto, task, options, mark } = taskConfig[i]
 
-    if(!mark) throw new Error(' task must have mark')
+    if(!mark) throw new Error(' The mark attribute of the scheduled task must exist')
 
     const initTask: AbstractSchedule = new task(options);
 

@@ -44,8 +44,8 @@ export default class PvSchedule extends AbstractSchedule {
 export default =[
     {
         task: PvSchedule, // 定时任务类
-        auto: true, // 自动执行 
-        mark:"pvSchedule" // 任务标记
+        auto: true, // true 代表自动执行，false代表手动执行
+        mark:"pv" // 任务标记
     },
     {
         ...
@@ -60,7 +60,7 @@ export default class PvSchedule extends AbstractSchedule {
         this.scheduleInfo = {
            rule:'0 0/1 * * * ?', // 每1分鐘更新一次
            name:'PV', // 定时任务名称
-            switch:true, // 开启定时任务
+            switch:true, // true:开启定时任务; false:关闭定时任务
             redLock:null // 不采用redis锁 
             ...app
         }
@@ -79,8 +79,9 @@ export default class PvSchedule extends AbstractSchedule {
 ### 任务
 - 手动启动定时任务
 ```js
-import {scheduleMap} from '@umajs/plugin-schedule'
-Reflect.get(scheduleMap,'pvSchedule').start() 
+import { umaTask } from '@umajs/plugin-schedule'
+
+umaTask("pv").start() 
 ```
 
 - 自动启动
@@ -92,7 +93,7 @@ Reflect.get(scheduleMap,'pvSchedule').start()
 
 ```js
 
-Reflect.get(scheduleMap,'pvSchedule').cancel()
+umaTask("pv").cancel()
 
 ```
 ### 定时方式 
@@ -125,6 +126,7 @@ rule.minute =0 每小时30分执行
 this.scheduleInfo = {
     rule, // 每1分鐘更新一次
 }
+
 ```
 
 ### 集群/分布式部署 执行定时任务

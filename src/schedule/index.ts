@@ -1,6 +1,6 @@
 import * as schedule from 'node-schedule';
 import * as RedLock from 'redlock'
-import { IScheduleInfo,instance,helper } from './interface'
+import { IScheduleInfo, instance, helper } from './interface'
 /**
  * @description
  * 定时任务
@@ -158,9 +158,16 @@ export abstract class AbstractSchedule {
 /**
  * 调用者当前实例
  */
-export const scheduleMap :instance = {}
+export const scheduleMap: instance = {}
+
+export const umaTask = (mark: string): AbstractSchedule => {
+    if(!mark) throw new Error(' The mark attribute of the scheduled task must exist')
+    if(!Reflect.get(scheduleMap, mark)) throw new Error(' The mask attribute does not exist in task config')
+    return Reflect.get(scheduleMap, mark)
+
+}
 
 /**
  * 记录任务是否已执行
  */
-export const scheduleHelper:helper = {}
+export const scheduleHelper: helper = {}
