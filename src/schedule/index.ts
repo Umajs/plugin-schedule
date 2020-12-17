@@ -161,8 +161,8 @@ export abstract class AbstractSchedule {
 export const scheduleMap: instance = {}
 
 export const umaTask = (mark: string): AbstractSchedule => {
-    if(!mark) throw new Error(' The mark attribute of the scheduled task must exist')
-    if(!Reflect.get(scheduleMap, mark)) throw new Error(' The mask attribute does not exist in task config')
+    if (!mark) throw new Error(' The mark attribute of the scheduled task must exist')
+    if (!Reflect.get(scheduleMap, mark)) throw new Error(' The mask attribute does not exist in task config')
     return Reflect.get(scheduleMap, mark)
 
 }
