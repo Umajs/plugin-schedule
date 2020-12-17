@@ -1,7 +1,7 @@
 {
   "name": "@umajs/plugin-schedule",
   "version": "0.0.1",
-  "description": "定时任务插件",
+  "description": "Umajs schedule plugin",
   "author": "wangbin31",
   "main": "lib/index.js",
   "license": "ISC",
@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@igit.58corp.com:node/uma.git"
+    "url": "git@igit.58corp.com:fe/umajs-plugin-schedule.git"
   },
   "scripts": {
     "build": "tsc",
