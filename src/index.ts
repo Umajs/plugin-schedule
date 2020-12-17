@@ -36,4 +36,6 @@ export default (uma: Uma): TPlugin => {
 
 };
 
+export { AbstractSchedule ,scheduleMap} 
+
 
