@@ -1,6 +1,6 @@
 {
   "name": "@umajs/plugin-schedule",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Umajs schedule plugin",
   "author": "wangbin31",
   "main": "lib/index.js",
