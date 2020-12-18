@@ -14,8 +14,6 @@ export default class PvSchedule extends AbstractSchedule {
            // rule:'0 0/1 * * * ?', // 每1分鐘更新一次
            // name:'PV', // 定时任务名称
             // switch:true, // 开启定时任务
-            // redLock:null // 不采用redis锁 
-            // ...app
         }
     }
 
@@ -34,14 +32,14 @@ export default class PvSchedule extends AbstractSchedule {
 
 1，在config/plugin.config.ts开启
 ```js
-    'task': {
+    'schedule': {
         enable: true,
     }
 
 ```
 2，新建schedule.config.ts，在其中填入配置项
 ```js
-export default =[
+export default [
     {
         task: PvSchedule, // 定时任务类
         auto: true, // true 代表自动执行，false代表手动执行
@@ -61,7 +59,6 @@ export default class PvSchedule extends AbstractSchedule {
            rule:'0 0/1 * * * ?', // 每1分鐘更新一次
            name:'PV', // 定时任务名称
             switch:true, // true:开启定时任务; false:关闭定时任务
-            redLock:null // 不采用redis锁 
             ...app
         }
     }
@@ -145,9 +142,9 @@ var client2 = require('redis').createClient(6379, 'redis2.example.com');
             rule: '0 0/1 * * * ?', // 每1分鐘更新一次
             name: 'pv', // 任务名称
             switch: true, // 定时任务开启
-            redLock:new RedLock([client1,client2]) // 采用redis锁 
-            redLockTKL:10000 //单位毫秒，锁的生存时间，在该时间内，若锁未释放，强行释放 避免死锁情况
-
+            redLock:new RedLock([client1,client2]), // 采用redis锁 
+            redLockTKL:10000 ,//单位毫秒，锁的生存时间，在该时间内，若锁未释放，强行释放 避免死锁情况
+            sleep:1000  //单位毫秒，执行任务后主动释放锁的时间
     },
 ```
 
