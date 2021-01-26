@@ -1,6 +1,6 @@
 import * as schedule from 'node-schedule';
 import * as RedLock from 'redlock'
-import { IScheduleInfo, instance, helper } from './interface'
+import { IScheduleInfo, instance, helper } from '../types'
 /**
  * @description
  * 定时任务

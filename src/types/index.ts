@@ -1,7 +1,7 @@
 
 import { RecurrenceRule, RecurrenceSpecDateRange, RecurrenceSpecObjLit } from 'node-schedule';
 import * as RedLock  from 'redlock'
-import {AbstractSchedule} from './index'
+import {AbstractSchedule} from '../schedule/index'
 export interface IScheduleInfo {
     rule:string | number | Date | RecurrenceRule | RecurrenceSpecDateRange | RecurrenceSpecObjLit // 定时规则
     name:string // 任务名称

@@ -1,6 +1,6 @@
 import { Uma, TPlugin } from "@umajs/core";
 import { scheduleMap ,AbstractSchedule} from "./schedule"
-import { IScheduleInfo } from "./schedule/interface";
+import { IScheduleInfo } from "./types";
 type taskConfig = {
   auto: boolean;
   task: any
