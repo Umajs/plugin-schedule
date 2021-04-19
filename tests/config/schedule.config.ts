@@ -4,10 +4,10 @@ import PvSchedule from '../controller/pvSchedule'
 import RedisSchedule from '../controller/RedisSchedule'
 
 const redis = new Redis({
-    port: 50238, // Redis port
-    host: "test-ugg15.rdb.58dns.org", // Redis host
+    port: 0, // Redis port
+    host: "", // Redis host
     family: 4, // 4 (IPv4) or 6 (IPv6)
-    password: "23065b04129b82d7",
+    password: "",
     db: 0,
 });
 export default [
