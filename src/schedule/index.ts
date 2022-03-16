@@ -50,7 +50,7 @@ export abstract class AbstractSchedule {
     private sleep(ms: number) {
         return new Promise((resolve) => {
             setTimeout(() => {
-                resolve();
+                resolve(true);
             }, ms);
         });
     }
