@@ -1,5 +1,5 @@
 import { Uma, TPlugin } from "@umajs/core";
-import { scheduleMap ,AbstractSchedule} from "./schedule"
+import { scheduleMap ,AbstractSchedule,umaTask} from "./schedule"
 import { IScheduleInfo } from "./types";
 type taskConfig = {
   auto: boolean;
@@ -36,6 +36,6 @@ export default (uma: Uma): TPlugin => {
 
 };
 
-export { AbstractSchedule ,scheduleMap} 
+export { AbstractSchedule ,scheduleMap,umaTask} 
 
 
