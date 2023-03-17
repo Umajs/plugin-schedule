@@ -129,23 +129,39 @@ this.scheduleInfo = {
 ### 集群/分布式部署 执行定时任务
 
 - 插件包含在分布式部署下，需要保证同一个定时任务只能运行一次，所以需要用事物锁来控制;
-- 插件采用的是分布式事务锁方案，支持单台redis和多台redis方案，基于redis实现
+- 插件采用的是分布式事务锁方案，支持单台redis和多台redis方案，基于 ioredis 实现
 
 
 ```js
 import * as RedLock  from 'redlock'
 
-var client1 = require('redis').createClient(6379, 'redis1.example.com');
-var client2 = require('redis').createClient(6379, 'redis2.example.com');
+import * as Redis from 'ioredis';
 
-   this.scheduleInfo= {
-            rule: '0 0/1 * * * ?', // 每1分鐘更新一次
-            name: 'pv', // 任务名称
-            switch: true, // 定时任务开启
-            redLock:new RedLock([client1,client2]), // 采用redis锁 
-            redLockTKL:10000 ,//单位毫秒，锁的生存时间，在该时间内，若锁未释放，强行释放 避免死锁情况
-            sleep:1000  //单位毫秒，执行任务后主动释放锁的时间
-    },
+const client1 = new Redis({
+    host: 'redis1.example.com',
+    port: 6379,
+    family: 4,
+    db: 0,
+    pass: 'xxx',
+    password: 'xxx',
+});
+const client2 = new Redis({
+    host: 'redis2.example.com',
+    port: 6378,
+    family: 4,
+    db: 0,
+    pass: 'xxx',
+    password: 'xxx',
+});
+
+this.scheduleInfo= {
+    rule: '0 0/1 * * * ?', // 每1分鐘更新一次
+    name: 'pv', // 任务名称
+    switch: true, // 定时任务开启
+    redLock:new RedLock([client1,client2]), // 采用redis锁 
+    redLockTKL:10000 ,//单位毫秒，锁的生存时间，在该时间内，若锁未释放，强行释放 避免死锁情况
+    sleep:1000  //单位毫秒，执行任务后主动释放锁的时间
+}
 ```
 
 
